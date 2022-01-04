@@ -1,32 +1,40 @@
 import React, { useState } from "react";
+import { collection, addDoc } from "firebase/firestore";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useNavigate } from "react-router";
+import { db } from "../firebase";
 
 const RegisterPatient = () => {
   const navigate = useNavigate();
 
   const [patientDetail, setPatientDetail] = useState({
     name: "",
-    age: "",
+    age: 0,
     disease: "",
     date: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let patientsLists = [];
-    patientsLists.push(patientDetail);
-    patientsLists = patientsLists.concat(
-      JSON.parse(localStorage.getItem("patients") || "[]")
-    );
-    console.log(patientsLists);
-    localStorage.setItem("patients", JSON.stringify(patientsLists));
+    try {
+      const docRef = await addDoc(collection(db, "patients"), patientDetail);
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+    // let patientsLists = [];
+    // patientsLists.push(patientDetail);
+    // patientsLists = patientsLists.concat(
+    //   JSON.parse(localStorage.getItem("patients") || "[]")
+    // );
+    // console.log(patientsLists);
+    // localStorage.setItem("patients", JSON.stringify(patientsLists));
 
     setPatientDetail((prev) => ({
       ...prev,
       name: "",
-      age: "",
+      age: 0,
       disease: "",
       date: "",
     }));

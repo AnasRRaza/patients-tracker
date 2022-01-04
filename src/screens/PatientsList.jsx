@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { colRef, db } from "../firebase";
 
 const PatientsList = () => {
   const navigate = useNavigate();
 
-  const lists = localStorage.getItem("patients");
-  const patients = JSON.parse(lists);
+  const [patients, setPatients] = useState([]);
+
+  useEffect(() => {
+    onSnapshot(colRef, (snapshot) => {
+      setPatients(
+        snapshot.docs.map((doc) => {
+          return {
+            ...doc.data(),
+            id: doc.id,
+          };
+        })
+      );
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(patients);
+  }, [patients]);
+
+  // const lists = localStorage.getItem("patients");
+  // const patients = JSON.parse(lists);
 
   return (
     <div className="patientsList">
