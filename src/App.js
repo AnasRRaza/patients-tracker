@@ -1,11 +1,14 @@
 import "./App.css";
-import RegisterPatient from "./screens/RegisterPatient";
+import { BrowserRouter } from "react-router-dom";
+import Routing from "./routes";
 
 function App() {
   return (
-    <div className="App">
-      <RegisterPatient />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Routing />
+      </div>
+    </BrowserRouter>
   );
 }
 

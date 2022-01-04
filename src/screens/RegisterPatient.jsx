@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import Button from "../components/Button";
 import Input from "../components/Input";
+import { useNavigate } from "react-router";
 
 const RegisterPatient = () => {
+  const navigate = useNavigate();
+
   const [patientDetail, setPatientDetail] = useState({
     name: "",
     age: "",
     disease: "",
-    date: new Date(),
+    date: "",
   });
 
   const handleSubmit = (e) => {
@@ -26,6 +30,7 @@ const RegisterPatient = () => {
       disease: "",
       date: "",
     }));
+    navigate("/lists");
   };
 
   return (
@@ -81,6 +86,23 @@ const RegisterPatient = () => {
         />
         <Input type="submit" />
       </form>
+      OR
+      <br />
+      <Button
+        title="See All Patients"
+        onClick={() => {
+          navigate("/lists");
+        }}
+      />
+      <br />
+      OR
+      <br />
+      <Button
+        title="Search Patient"
+        onClick={() => {
+          navigate("/SinglePatient");
+        }}
+      />
     </div>
   );
 };

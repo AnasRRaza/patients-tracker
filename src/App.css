@@ -1,16 +1,10 @@
 body {
   margin: 0;
   padding: 0;
-  /* background-color: rgb(241, 238, 238); */
 }
 
 .App {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 100vh;
-  min-height: 100vh;
-  background-color: aliceblue; */
+  text-align: center;
 }
 
 .register-form {
@@ -21,15 +15,6 @@ body {
   border: 1px solid;
   border-radius: 6px;
   margin: 60px auto;
-  /* background-color: ; */
-  /* background-color: brown;
-  display: flex;
-  width: 50%;
-  background-color: lightgray;
-  width: 100%;
-  border: 1px solid;
-  margin: 50px auto;
-  text-align: center; */
 }
 
 .input {
@@ -38,4 +23,31 @@ body {
   height: 30px;
   font-size: large;
   padding: 3px 10px;
+}
+.patientsList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.patientDetail {
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  border: 1px solid;
+  border-radius: 3px;
+  width: 400px;
+  margin: 10px;
+}
+
+.btn {
+  width: 80%;
+  margin: 10px;
+  height: 30px;
+  font-size: large;
+  padding: 3px 10px;
+}
+.singlePatient {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
