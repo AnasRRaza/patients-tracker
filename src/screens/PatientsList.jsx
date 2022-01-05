@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
-import { colRef, db } from "../firebase";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 
 const PatientsList = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const PatientsList = () => {
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
-    onSnapshot(colRef, (snapshot) => {
+    onSnapshot(collection(db, "patients"), (snapshot) => {
       setPatients(
         snapshot.docs.map((doc) => {
           return {
@@ -20,13 +20,6 @@ const PatientsList = () => {
       );
     });
   }, []);
-
-  useEffect(() => {
-    console.log(patients);
-  }, [patients]);
-
-  // const lists = localStorage.getItem("patients");
-  // const patients = JSON.parse(lists);
 
   return (
     <div className="patientsList">

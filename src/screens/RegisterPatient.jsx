@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { db } from "../firebase";
 
 const RegisterPatient = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-
   const [patientDetail, setPatientDetail] = useState({
     name: "",
     age: 0,
     disease: "",
     date: "",
+    patientId: id,
   });
 
   const handleSubmit = async (e) => {
@@ -23,26 +24,19 @@ const RegisterPatient = () => {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-    // let patientsLists = [];
-    // patientsLists.push(patientDetail);
-    // patientsLists = patientsLists.concat(
-    //   JSON.parse(localStorage.getItem("patients") || "[]")
-    // );
-    // console.log(patientsLists);
-    // localStorage.setItem("patients", JSON.stringify(patientsLists));
-
     setPatientDetail((prev) => ({
       ...prev,
       name: "",
       age: 0,
       disease: "",
       date: "",
+      patientId: "",
     }));
-    navigate("/lists");
+    navigate(`/patientDetails/${id}`);
   };
 
   return (
-    <div className="register-form">
+    <div className="form">
       <form onSubmit={handleSubmit}>
         <h1>Register Patients</h1>
         <Input

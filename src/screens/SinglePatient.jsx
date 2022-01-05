@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db } from "../firebase";
 
 const SinglePatient = () => {
   const [searchPatient, setSearchPatient] = useState("");
@@ -7,9 +9,20 @@ const SinglePatient = () => {
   const [filteredPatientsByDate, setFilteredPatientsByDate] = useState(null);
   const [notFound, setNotFound] = useState("");
   const [notFoundDate, setNotFoundDate] = useState("");
+  const [patients, setPatients] = useState([]);
 
-  const lists = localStorage.getItem("patients");
-  const patients = JSON.parse(lists);
+  useEffect(() => {
+    onSnapshot(collection(db, "patients"), (snapshot) => {
+      setPatients(
+        snapshot.docs.map((doc) => {
+          return {
+            ...doc.data(),
+            id: doc.id,
+          };
+        })
+      );
+    });
+  }, []);
 
   const findPatient = () => {
     const search = patients.filter((ele) => {
@@ -53,7 +66,6 @@ const SinglePatient = () => {
             width: "300px",
           }}
         />
-
         <button
           style={{
             padding: "10px",
@@ -80,7 +92,6 @@ const SinglePatient = () => {
             width: "300px",
           }}
         />
-
         <button
           style={{
             padding: "10px",
