@@ -4,10 +4,12 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import { useNavigate, useParams } from "react-router";
 import { db } from "../firebase";
+import InputImage from "../components/InputImage";
 
 const RegisterPatient = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [image, setImage] = useState(null);
   const [patientDetail, setPatientDetail] = useState({
     name: "",
     age: 0,
@@ -18,8 +20,10 @@ const RegisterPatient = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const details = { patientDetail, ...image };
+    console.log(image);
     try {
-      const docRef = await addDoc(collection(db, "patients"), patientDetail);
+      const docRef = await addDoc(collection(db, "patients"), details);
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -73,6 +77,17 @@ const RegisterPatient = () => {
               ...prev,
               disease: value,
             }));
+          }}
+        />
+        <InputImage
+          title="Select Image:"
+          value={image}
+          onChange={(files) => {
+            if (files?.length) {
+              setImage(files[0]);
+            } else {
+              setImage(null);
+            }
           }}
         />
         <Input
