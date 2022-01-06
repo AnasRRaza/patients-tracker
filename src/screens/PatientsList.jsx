@@ -24,9 +24,17 @@ const PatientsList = () => {
   return (
     <div className="patientsList">
       <h1>Patients Lists</h1>
-      {patients?.map((patient) => {
+      <button
+        onClick={() => {
+          navigate("/search");
+        }}
+        style={{ padding: "10px", margin: "10px", fontSize: "20px" }}
+      >
+        Search Patients
+      </button>
+      {patients?.map((patient, ind) => {
         return (
-          <div className="patientDetail" key={patient.name + patient.age}>
+          <div className="patientDetail" key={ind}>
             <p>
               Patient Name: <b> {patient.name}</b>
             </p>
@@ -42,14 +50,13 @@ const PatientsList = () => {
           </div>
         );
       })}
-      <button
+
+      {/* <Button
+        title="Search Patient"
         onClick={() => {
-          navigate("/");
-        }}
-        style={{ padding: "10px", margin: "10px", fontSize: "20px" }}
-      >
-        Register New Patient
-      </button>
+          navigate("/search");
+        }} 
+      /> */}
     </div>
   );
 };

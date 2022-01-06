@@ -1,8 +1,11 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { db } from "../firebase";
 
 const SinglePatient = () => {
+  const navigate = useNavigate();
+
   const [searchPatient, setSearchPatient] = useState("");
   const [searchPatientByDate, setSearchPatientByDate] = useState("");
   const [filteredPatients, setFilteredPatients] = useState(null);
@@ -28,11 +31,11 @@ const SinglePatient = () => {
     const search = patients.filter((ele) => {
       return ele.name.toLowerCase() === searchPatient.toLowerCase();
     });
-
     if (search.length) {
       setFilteredPatients(search);
     } else {
       setFilteredPatients("");
+      setFilteredPatientsByDate("");
       setNotFound("Patient not found");
     }
   };
@@ -45,13 +48,15 @@ const SinglePatient = () => {
       setFilteredPatientsByDate(search);
     } else {
       setFilteredPatientsByDate("");
+      setFilteredPatients("");
       setNotFoundDate("Patient not found");
     }
   };
 
   return (
     <div className="singlePatient">
-      <h1>Search Patient</h1>
+      <h1>Search Patients</h1>
+      <h2>By Name</h2>
       <div>
         <input
           type="text"
@@ -78,6 +83,7 @@ const SinglePatient = () => {
         <br />
       </div>
       <br />
+      <h2>By Date</h2>
       <div>
         <input
           type="date"
@@ -153,6 +159,14 @@ const SinglePatient = () => {
       ) : (
         <h3>{notFoundDate}</h3>
       )}
+      <button
+        onClick={() => {
+          navigate("/lists");
+        }}
+        style={{ padding: "10px", fontSize: "20px" }}
+      >
+        See all Patients
+      </button>
     </div>
   );
 };

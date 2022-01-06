@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import Button from "../components/Button";
 import Input from "../components/Input";
 import { useNavigate, useParams } from "react-router";
 import { db } from "../firebase";
-import InputImage from "../components/InputImage";
+// import InputImage from "../components/InputImage";
 
 const RegisterPatient = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
   const [patientDetail, setPatientDetail] = useState({
     name: "",
     age: 0,
@@ -20,10 +19,10 @@ const RegisterPatient = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const details = { patientDetail, ...image };
-    console.log(image);
+    // const details = { patientDetail, ...image };
+    // console.log(image);
     try {
-      const docRef = await addDoc(collection(db, "patients"), details);
+      const docRef = await addDoc(collection(db, "patients"), patientDetail);
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -79,7 +78,7 @@ const RegisterPatient = () => {
             }));
           }}
         />
-        <InputImage
+        {/* <InputImage
           title="Select Image:"
           value={image}
           onChange={(files) => {
@@ -89,7 +88,7 @@ const RegisterPatient = () => {
               setImage(null);
             }
           }}
-        />
+        /> */}
         <Input
           required={true}
           type="date"
@@ -103,23 +102,6 @@ const RegisterPatient = () => {
         />
         <Input type="submit" />
       </form>
-      OR
-      <br />
-      <Button
-        title="See All Patients"
-        onClick={() => {
-          navigate("/lists");
-        }}
-      />
-      <br />
-      OR
-      <br />
-      <Button
-        title="Search Patient"
-        onClick={() => {
-          navigate("/SinglePatient");
-        }}
-      />
     </div>
   );
 };

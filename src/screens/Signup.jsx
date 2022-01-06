@@ -65,6 +65,13 @@ const Signup = () => {
           navigate("/login");
         }}
       />
+      <p>Or</p>
+      <Button
+        title="Admin Sign In"
+        onClick={() => {
+          navigate("/admin");
+        }}
+      />
     </div>
   );
 };
