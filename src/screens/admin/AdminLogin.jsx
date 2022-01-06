@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Button from "../components/Button";
-import Input from "../components/Input";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 import { useNavigate } from "react-router";
 
 const AdminLogin = () => {
@@ -17,7 +17,7 @@ const AdminLogin = () => {
         username: "",
         password: "",
       });
-      navigate("/lists");
+      navigate("/adminDashboard");
     }
   };
 

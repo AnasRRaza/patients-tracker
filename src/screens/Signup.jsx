@@ -1,38 +1,39 @@
-import React, { useState } from "react";
-import Input from "../components/Input";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import React from "react";
+// import Input from "../components/Input";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+// import { auth } from "../firebase";
 import { useNavigate } from "react-router";
 import Button from "../components/Button";
 
 const Signup = () => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
+  // const [user, setUser] = useState({
+  //   email: "",
+  //   password: "",
+  // });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(user);
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        user.email,
-        user.password
-      );
-      const userID = userCredential.user.uid;
-      navigate(`/register/${userID}`);
-      console.log(userCredential);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log(user);
+  //   try {
+  //     const userCredential = await createUserWithEmailAndPassword(
+  //       auth,
+  //       user.email,
+  //       user.password
+  //     );
+  //     const userID = userCredential.user.uid;
+  //     navigate(`/register/${userID}`);
+  //     console.log(userCredential);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   return (
-    <div className="form ">
-      <h1>Sign Up</h1>
+    <div className="form">
+      <h1>Patient Tracker</h1>
+      {/* <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <Input
           type="email"
@@ -58,11 +59,11 @@ const Signup = () => {
         />
         <Input type="submit" />
       </form>
-      <p>Or</p>
+      <p>Or</p> */}
       <Button
-        title="Sign In"
+        title="Patient Sign In"
         onClick={() => {
-          navigate("/login");
+          navigate("/patientLogin");
         }}
       />
       <p>Or</p>
@@ -70,6 +71,13 @@ const Signup = () => {
         title="Admin Sign In"
         onClick={() => {
           navigate("/admin");
+        }}
+      />
+      <p>Or</p>
+      <Button
+        title="Doctor Sign In"
+        onClick={() => {
+          navigate("/doctorLogin");
         }}
       />
     </div>

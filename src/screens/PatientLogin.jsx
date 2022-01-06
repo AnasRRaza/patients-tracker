@@ -20,6 +20,7 @@ const Login = () => {
         user.email,
         user.password
       );
+
       const userID = userCredential.user.uid;
       navigate(`/patientDetails/${userID}`);
       console.log(userCredential);
@@ -29,7 +30,7 @@ const Login = () => {
   };
   return (
     <div className="form">
-      <h1>Login</h1>
+      <h1>Patient Login</h1>
       <form onSubmit={handleSubmit}>
         <Input
           type="email"
