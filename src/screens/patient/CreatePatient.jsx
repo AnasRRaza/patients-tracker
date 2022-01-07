@@ -1,11 +1,17 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router";
-import Input from "../components/Input";
-import { auth } from "../firebase";
+import { useNavigate, useParams } from "react-router";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
+import { auth } from "../../firebase";
 
-const Login = () => {
+const CreatePatient = () => {
   const navigate = useNavigate();
+
+  const { id } = useParams();
+
+  console.log(id);
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -13,23 +19,24 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(user);
     try {
-      const userCredential = await signInWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
         auth,
         user.email,
         user.password
       );
-
       const userID = userCredential.user.uid;
-      navigate(`/patientDetails/${userID}`);
+      navigate(`/register/${userID}.${id}`);
       console.log(userCredential);
     } catch (error) {
       console.log(error.message);
     }
   };
+
   return (
     <div className="form">
-      <h1>Patient Login</h1>
+      <h1>Create Patient</h1>
       <form onSubmit={handleSubmit}>
         <Input
           type="email"
@@ -43,8 +50,8 @@ const Login = () => {
           }}
         />
         <Input
-          type="Password"
-          placeholder="password"
+          type="password"
+          placeholder="Password"
           value={user.password}
           onChange={(value) => {
             setUser((prev) => ({
@@ -54,16 +61,18 @@ const Login = () => {
           }}
         />
         <Input type="submit" />
+        <br />
+        Or
+        <br />
+        <Button
+          title="See Your Patients"
+          onClick={() => {
+            navigate(`/doctorPatients/${id}`);
+          }}
+        />
       </form>
-      {/* <p>Or</p>
-      <Button
-        title="Sign Up"
-        onClick={() => {
-          navigate("/");
-        }}
-      /> */}
     </div>
   );
 };
 
-export default Login;
+export default CreatePatient;

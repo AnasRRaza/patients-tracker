@@ -96,7 +96,7 @@ const CreateDoctor = () => {
             }));
           }}
         />
-        <Button title="Submit" />
+        <Button title="Submit" />z
       </form>
     </div>
   );

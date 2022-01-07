@@ -7,6 +7,14 @@ import { db } from "../firebase";
 
 const RegisterPatient = () => {
   const { id } = useParams();
+  console.log(id);
+
+  const patientId = id.split(".")[0];
+  const doctorId = id.split(".")[1];
+
+  console.log({ patientId });
+  console.log({ doctorId });
+
   const navigate = useNavigate();
   // const [image, setImage] = useState(null);
   const [patientDetail, setPatientDetail] = useState({
@@ -14,7 +22,8 @@ const RegisterPatient = () => {
     age: 0,
     disease: "",
     date: "",
-    patientId: id,
+    patientId: patientId,
+    doctorId: doctorId,
   });
 
   const handleSubmit = async (e) => {
@@ -35,7 +44,7 @@ const RegisterPatient = () => {
       date: "",
       patientId: "",
     }));
-    navigate(`/patientDetails/${id}`);
+    navigate(`/patientDetails/${patientId}`);
   };
 
   return (

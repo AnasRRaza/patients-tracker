@@ -19,6 +19,12 @@ const AdminDashboard = () => {
           navigate("/createDoctor");
         }}
       />
+      <Button
+        title="See All Doctors"
+        onClick={() => {
+          navigate("/doctorsLists");
+        }}
+      />
     </div>
   );
 };

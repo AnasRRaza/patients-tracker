@@ -10,6 +10,9 @@ import PatientsList from "../screens/PatientsList";
 import RegisterPatient from "../screens/RegisterPatient";
 import Signup from "../screens/Signup";
 import SinglePatient from "../screens/SinglePatient";
+import CreatePatient from "../screens/patient/CreatePatient";
+import DoctorPatients from "../screens/doctor/DoctorPatients";
+import DoctorList from "../screens/doctor/DoctorList";
 
 const Routing = () => {
   return (
@@ -20,8 +23,11 @@ const Routing = () => {
       <Route path="/adminDashboard" element={<AdminDashboard />} />
       <Route path="/createDoctor" element={<CreateDoctor />} />
       <Route path="/doctorLogin" element={<DoctorLogin />} />
-      <Route path="/patientDetails/:id" element={<PatientDetails />} />
+      <Route path="doctorsLists" element={<DoctorList />} />
+      <Route path="/createPatient/:id" element={<CreatePatient />} />
       <Route path="/register/:id" element={<RegisterPatient />} />
+      <Route path="/patientDetails/:id" element={<PatientDetails />} />
+      <Route path="/doctorPatients/:id" element={<DoctorPatients />} />
       <Route path="lists" element={<PatientsList />} />
       <Route path="search" element={<SinglePatient />} />
     </Routes>

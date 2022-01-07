@@ -1,9 +1,11 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Input from "../../components/Input";
 import { db } from "../../firebase";
 
 const DoctorLogin = () => {
+  const navigate = useNavigate();
   const [doctorDetail, setDoctorDetail] = useState({
     email: "",
     password: "",
@@ -28,20 +30,26 @@ const DoctorLogin = () => {
     console.log(doctors);
   }, [doctors]);
 
-  useEffect(() => {
-    console.log(findDoctor);
-  }, [findDoctor]);
+  // useEffect(() => {
+  //   console.log(findDoctor);
+  // }, [findDoctor]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const search = doctors?.filter((ele) => {
+    const search = doctors?.find((ele) => {
       return (
         ele.email === doctorDetail.email &&
         ele.password === doctorDetail.password
       );
     });
-    setFindDoctor(search);
-    console.log(findDoctor);
+    console.log(search);
+    if (search) {
+      navigate(`/createPatient/${search.id}`);
+    } else {
+      alert("Email or Password not found");
+    }
+    // setFindDoctor(search);
+    // console.log(findDoctor);
   };
 
   return (
