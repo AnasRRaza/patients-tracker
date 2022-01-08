@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Button from "../../components/Button";
@@ -26,6 +26,7 @@ const CreatePatient = () => {
         user.email,
         user.password
       );
+      await sendEmailVerification(auth.currentUser)
       const userID = userCredential.user.uid;
       navigate(`/register/${userID}.${id}`);
       console.log(userCredential);
