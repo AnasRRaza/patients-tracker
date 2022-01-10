@@ -25,6 +25,7 @@ const PatientDetails = () => {
     const search = patients?.filter((ele) => {
       return ele.patientId === id;
     });
+    console.log(search);
     setPatientDetails(search);
   }, [patients, id]);
 
@@ -46,7 +47,7 @@ const PatientDetails = () => {
             <p>
               Date of Registration: <b> {ele.date}</b>
             </p>
-            {/* <img src={ele.image} alt="" width={200} /> */}
+            <img src={ele.imageUrl} alt="file" width={200} />
           </div>
         );
       })}
