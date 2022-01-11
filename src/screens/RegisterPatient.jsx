@@ -8,13 +8,9 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const RegisterPatient = () => {
   const { id } = useParams();
-  // console.log(id);
 
   const patientId = id.split(".")[0];
   const doctorId = id.split(".")[1];
-
-  // console.log({ patientId });
-  // console.log({ doctorId });
 
   const navigate = useNavigate();
   const [image, setImage] = useState(null);
@@ -25,7 +21,6 @@ const RegisterPatient = () => {
     date: "",
     patientId: patientId,
     doctorId: doctorId,
-    imageUrl: "",
   });
 
   const fileUpload = async () => {
@@ -58,20 +53,19 @@ const RegisterPatient = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fileUpload()
-      .then((data) => {
-        setPatientDetail((prev) => ({
-          ...prev,
-          imageUrl: data,
-        }));
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    console.log(patientDetail);
     try {
-      const docRef = addDoc(collection(db, "patients"), patientDetail);
-      console.log("Document written with ID: ", docRef.id);
+      await fileUpload()
+        .then((data) => {
+          console.log(data);
+          const docRef = addDoc(collection(db, "patients"), {
+            ...patientDetail,
+            imageUrl: data,
+          });
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     } catch (e) {
       console.error("Error adding document: ", e);
     }
