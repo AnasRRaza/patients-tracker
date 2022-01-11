@@ -8,7 +8,7 @@ import Login from "../screens/PatientLogin";
 import PatientDetails from "../screens/PatientDetails";
 import PatientsList from "../screens/PatientsList";
 import RegisterPatient from "../screens/RegisterPatient";
-import Signup from "../screens/Signup";
+import Home from "../screens/Home";
 import SinglePatient from "../screens/SinglePatient";
 import CreatePatient from "../screens/patient/CreatePatient";
 import DoctorPatients from "../screens/doctor/DoctorPatients";
@@ -17,7 +17,7 @@ import DoctorList from "../screens/doctor/DoctorList";
 const Routing = () => {
   return (
     <Routes>
-      <Route path="/" element={<Signup />} />
+      <Route path="/" element={<Home />} />
       <Route path="/patientLogin" element={<Login />} />
       <Route path="/admin" element={<AdminLogin />} />
       <Route path="/adminDashboard" element={<AdminDashboard />} />

@@ -21,10 +21,6 @@ const DoctorList = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(doctors);
-  }, [doctors]);
-
   return (
     <div className="doctorList">
       <h1>All Doctors</h1>

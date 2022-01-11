@@ -11,7 +11,6 @@ const DoctorLogin = () => {
     password: "",
   });
   const [doctors, setDoctors] = useState([]);
-  const [findDoctor, setFindDoctor] = useState([]);
 
   useEffect(() => {
     onSnapshot(collection(db, "doctors"), (snapshot) => {
@@ -30,10 +29,6 @@ const DoctorLogin = () => {
     console.log(doctors);
   }, [doctors]);
 
-  // useEffect(() => {
-  //   console.log(findDoctor);
-  // }, [findDoctor]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const search = doctors?.find((ele) => {
@@ -48,8 +43,6 @@ const DoctorLogin = () => {
     } else {
       alert("Email or Password not found");
     }
-    // setFindDoctor(search);
-    // console.log(findDoctor);
   };
 
   return (

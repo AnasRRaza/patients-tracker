@@ -9,8 +9,6 @@ const DoctorPatients = () => {
 
   const { id } = useParams();
 
-  console.log(id);
-
   useEffect(() => {
     onSnapshot(collection(db, "patients"), (snapshot) => {
       setPatients(
@@ -25,11 +23,9 @@ const DoctorPatients = () => {
   }, []);
 
   useEffect(() => {
-    console.log(patients);
     const search = patients.filter((pat) => {
       return pat.doctorId === id;
     });
-    console.log(search);
     setSpecDocPatients(search);
   }, [patients, id]);
 
@@ -51,6 +47,12 @@ const DoctorPatients = () => {
             <p>
               Date of Registration: <b> {patient.date}</b>
             </p>
+            <img
+              className="center"
+              src={patient.imageUrl}
+              alt="file"
+              width={200}
+            />
           </div>
         );
       })}

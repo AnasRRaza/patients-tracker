@@ -128,6 +128,12 @@ const SinglePatient = () => {
               <p>
                 Date of Registration: <b> {patient.date}</b>
               </p>
+              <img
+                className="center"
+                src={patient.imageUrl}
+                alt="file"
+                width={200}
+              />
             </div>
           );
         })
@@ -153,6 +159,12 @@ const SinglePatient = () => {
               <p>
                 Date of Registration: <b> {patient.date}</b>
               </p>
+              <img
+                className="center"
+                src={patient.imageUrl}
+                alt="file"
+                width={200}
+              />
             </div>
           );
         })

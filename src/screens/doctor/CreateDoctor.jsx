@@ -1,10 +1,13 @@
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { db } from "../../firebase";
 
 const CreateDoctor = () => {
+  const navigate = useNavigate();
+
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
@@ -33,16 +36,7 @@ const CreateDoctor = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const isMatch = doctors?.map((doc) => {
-    //   return doc.find((ele) => {
-    //     return (
-    //       ele.email === doctorDetail.email &&
-    //       ele.password === doctorDetail.password
-    //     );
-    //   });
-    // });
-    // console.log(isMatch);
-    // if (isMatch) {
+
     try {
       const docRef = await addDoc(collection(db, "doctors"), doctorDetail);
       console.log("Document written with ID: ", docRef.id);
@@ -50,13 +44,13 @@ const CreateDoctor = () => {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-    // }
     setDoctorDetail((prev) => ({
       ...prev,
       name: "",
       email: "",
       password: "",
     }));
+    navigate("/doctorsLists");
   };
 
   return (

@@ -55,13 +55,6 @@ const Login = () => {
         />
         <Input type="submit" />
       </form>
-      {/* <p>Or</p>
-      <Button
-        title="Sign Up"
-        onClick={() => {
-          navigate("/");
-        }}
-      /> */}
     </div>
   );
 };
