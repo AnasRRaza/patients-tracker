@@ -1,40 +1,88 @@
 import React, { useState } from "react";
-import Button from "../components/Button";
+import { collection, addDoc } from "firebase/firestore";
 import Input from "../components/Input";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { db, storage } from "../firebase";
+import InputImage from "../components/InputImage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const RegisterPatient = () => {
-  const navigate = useNavigate();
+  const { id } = useParams();
 
+  const patientId = id.split(".")[0];
+  const doctorId = id.split(".")[1];
+
+  const navigate = useNavigate();
+  const [image, setImage] = useState(null);
   const [patientDetail, setPatientDetail] = useState({
     name: "",
-    age: "",
+    age: 0,
     disease: "",
     date: "",
+    patientId: patientId,
+    doctorId: doctorId,
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let patientsLists = [];
-    patientsLists.push(patientDetail);
-    patientsLists = patientsLists.concat(
-      JSON.parse(localStorage.getItem("patients") || "[]")
-    );
-    console.log(patientsLists);
-    localStorage.setItem("patients", JSON.stringify(patientsLists));
+  const fileUpload = async () => {
+    return new Promise((resolve, reject) => {
+      const fileRef = ref(storage, `images/${Date.now() + image.name}`);
+      console.log(fileRef);
 
+      const uploadTask = uploadBytesResumable(fileRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+        },
+        (error) => {
+          console.log(error);
+          reject(error);
+        },
+        async () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await fileUpload()
+        .then((data) => {
+          console.log(data);
+          const docRef = addDoc(collection(db, "patients"), {
+            ...patientDetail,
+            imageUrl: data,
+          });
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
     setPatientDetail((prev) => ({
       ...prev,
       name: "",
-      age: "",
+      age: 0,
       disease: "",
       date: "",
+      patientId: "",
+      imageUrl: "",
     }));
-    navigate("/lists");
+    navigate(`/patientDetails/${patientId}`);
   };
 
   return (
-    <div className="register-form">
+    <div className="form">
       <form onSubmit={handleSubmit}>
         <h1>Register Patients</h1>
         <Input
@@ -73,6 +121,19 @@ const RegisterPatient = () => {
             }));
           }}
         />
+        <InputImage
+          title="Select Image:"
+          value={image}
+          onChange={(files) => {
+            if (files?.length) {
+              setImage(files[0]);
+              console.log(files[0]);
+              console.log(image);
+            } else {
+              setImage(null);
+            }
+          }}
+        />
         <Input
           required={true}
           type="date"
@@ -86,23 +147,6 @@ const RegisterPatient = () => {
         />
         <Input type="submit" />
       </form>
-      OR
-      <br />
-      <Button
-        title="See All Patients"
-        onClick={() => {
-          navigate("/lists");
-        }}
-      />
-      <br />
-      OR
-      <br />
-      <Button
-        title="Search Patient"
-        onClick={() => {
-          navigate("/SinglePatient");
-        }}
-      />
     </div>
   );
 };

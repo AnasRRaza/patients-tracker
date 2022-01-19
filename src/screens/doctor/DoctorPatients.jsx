@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { db } from "../../firebase";
 
-const PatientsList = () => {
-  const navigate = useNavigate();
-
+const DoctorPatients = () => {
   const [patients, setPatients] = useState([]);
+  const [specDocPatients, setSpecDocPatients] = useState([]);
+
+  const { id } = useParams();
 
   useEffect(() => {
     onSnapshot(collection(db, "patients"), (snapshot) => {
@@ -21,18 +22,17 @@ const PatientsList = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const search = patients.filter((pat) => {
+      return pat.doctorId === id;
+    });
+    setSpecDocPatients(search);
+  }, [patients, id]);
+
   return (
     <div className="patientsList">
-      <h1>Patients Lists</h1>
-      <button
-        onClick={() => {
-          navigate("/search");
-        }}
-        style={{ padding: "10px", margin: "10px", fontSize: "20px" }}
-      >
-        Search Patients
-      </button>
-      {patients?.map((patient, ind) => {
+      <h1> Patients </h1>
+      {specDocPatients.map((patient, ind) => {
         return (
           <div className="patientDetail" key={ind}>
             <p>
@@ -60,4 +60,4 @@ const PatientsList = () => {
   );
 };
 
-export default PatientsList;
+export default DoctorPatients;
